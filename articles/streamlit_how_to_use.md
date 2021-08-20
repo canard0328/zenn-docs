@@ -3,7 +3,7 @@ title: "Streamlitの備忘録"
 emoji: "👋"
 type: "tech" # tech: 技術記事 / idea: アイデア
 topics: ["Streamlit", "Python", "Machine Learning", "Data Science"]
-published: false
+published: true
 ---
 
 Streamlitはデータサイエンスに適したWebアプリを簡単に作れるPythonのフレームワークです．  
