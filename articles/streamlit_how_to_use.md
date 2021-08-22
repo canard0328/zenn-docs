@@ -113,3 +113,9 @@ def update_txtbox():
 
 st.text_input("Textbox", key="txtbox1", on_change=update_txtbox)
 ```
+
+# テキスト
+
+## 改行
+
+テキストの改行は￥ｎでできます．st.writeだけでなく，st.markdown内での改行も￥ｎです．
