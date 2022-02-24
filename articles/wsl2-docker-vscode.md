@@ -3,7 +3,7 @@ title: "WSL2とDockerでつくる開発環境"
 emoji: "👋"
 type: "tech" # tech: 技術記事 / idea: アイデア
 topics: ["WSL", "WSL2", "Windows Subsystem for Linux", "Docker"]
-published: false
+published: true
 ---
 
 この記事は，Windows PC上でWSL2（Windows Subsystem for Linux 2）とDockerを利用して，クリーンなLinuxでの（とりあえずPythonの）開発環境を構築する備忘録です．
@@ -136,7 +136,7 @@ docker run hello-world
 
 # Visual Studio Code連携
 
-最初に~~「Remote - Containers」と「Remote - WSL」~~「Remote Development」の拡張を入れます．
+最初に ~~「Remote - Containers」と「Remote - WSL」~~ 「Remote Development」の拡張を入れます．
 
 Dockerを使わずにWSL上で開発する場合，Windowsターミナル上のUbuntuで，任意のディレクトリから
 
@@ -148,7 +148,7 @@ code .
 
 # WSL上のプロジェクトをコンテナ上で開発
 
-WSL上のプロジェクトファイル内にDockerfileを作成します．とりあえずミニマムなPython環境をコンテナ側に用意する場合，Dockerfileの中身は以下のように記載します．
+WSL上のプロジェクトディレクトリ内（空のディレクトリでも大丈夫です）にDockerfileを作成します．とりあえずミニマムなPython環境をコンテナ側に用意する場合，Dockerfileの中身は以下のように記載します．
 
 ```dockerfile
 FROM python:3.9-slim-buster
