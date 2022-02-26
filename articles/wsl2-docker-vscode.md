@@ -73,6 +73,27 @@ $ sudo update-alternatives --config editor
 $ ls -lRa /etc/alternatives/editor
 ```
 
+# WSL内のProxyの設定
+
+以下の操作は会社内などProxyが必要な環境ではWSL内でProxyの設定をしておく必要があります．
+
+まず，/etc/apt/内にapt.confというファイルを新規作成し，以下を書き込みます．
+
+```
+Acquire::http::proxy "http://<id>:<password>@proxy_address:port/";
+Acquire::https::proxy "https://<id>:<password>@proxy_address:[port]/";
+```
+
+次に~/.bashrc内に以下を追記します（bashじゃない人はよしなに）．
+やっかいなことに，大文字と小文字のもの，両方必要なようです．
+
+```
+export HTTP_PROXY=http://<id>:<password>@proxy_address:port/
+export HTTPS_PROXY=${HTTP_PROXY}
+export http_proxy=http://<id>:<password>@proxy_address:port/
+export https_proxy=${http_proxy}
+```
+
 # WSL2内Linuxディストリビューション上でのDockerのインストール
 
 基本的に[こちら](https://docs.docker.com/engine/install/ubuntu/#install-using-the-repository)の指示に従っていくだけです．
@@ -146,6 +167,22 @@ code .
 
 とするとWindows側のVisual Studio Codeが立ち上がり，WSL上のファイルの編集，WSL上のPythonの実行ができます．
 
+# Docker内のProxyの設定
+
+WSL内でProxyを通したように，Docker内でもProxyの設定が必要です．
+~/.docker/config.jsonに（無ければ作って）以下のように記載します．
+
+```json
+{
+  "proxies": {
+    "default": {
+      "httpProxy": "http://{HOST}:{port}",
+      "httpsProxy": "http://{HOST}:{port}"
+    }
+  }
+}
+```
+
 # WSL上のプロジェクトをコンテナ上で開発
 
 WSL上のプロジェクトディレクトリ内（空のディレクトリでも大丈夫です）にDockerfileを作成します．とりあえずミニマムなPython環境をコンテナ側に用意する場合，Dockerfileの中身は以下のように記載します．
@@ -164,7 +201,7 @@ FROM python:3.9-slim-buster
 
 Dockerfileにはコンテナ作成時に実行する内容を記載します．
 コマンドの実行はRUNコマンドで記述します．
-slimなPythonを入れる場合，恐らくpipが入らないのでapt-get installでpipを入れます．
+slimなPythonを入れる場合，恐らくpipが入らないのでapt-get installでpipを入れます（別PCで環境構築したときはpipが入っていました...謎）．
 このとき，インストールするものは改行して1行ごとに，アルファベット順に記載するのが作法のようです．
 
 pipを使ったPythonライブラリのインストールもRUNコマンドで記載します．
