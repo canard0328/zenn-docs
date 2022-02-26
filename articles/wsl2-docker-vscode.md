@@ -229,6 +229,14 @@ RUN pip install numpy==1.22.2
 
 記載する拡張の名前ですが，VS Codeでその拡張のページを開き，右側のMore Info>Identifierのところに書いてある名前を書けばOKです．
 
+# WSLコマンド
+
+WSLのシャットダウン（再起動）
+
+```powershell
+> wsl --shutdown
+```
+
 # Dockerコマンド
 
 イメージの一覧を表示
