@@ -19,7 +19,7 @@ published: true
 wsl --install
 ```
 
-ただし，この状態で使えるようになるWSLはVer.1でした．WSLのバージョンは以下のように確認できます．
+ただし，このときインストールされるWSLはVer.1のことがあります．WSLのバージョンは以下のように確認できます．
 
 ```powershell
 wsl --list -v
@@ -52,7 +52,8 @@ wsl --list -v
 
 こちらは必須ではありませんが，Windowsターミナルを入れておくとよさそうです．入れ方は[こちら](https://docs.microsoft.com/ja-jp/windows/terminal/install)．
 
-初期状態ではWindowsターミナルでLinuxを開くとWindowsのCドライブのユーザディレクトリがカレントディレクトリになります．
+~~初期状態ではWindowsターミナルでLinuxを開くとWindowsのCドライブのユーザディレクトリがカレントディレクトリになります．~~
+（初期状態の開始ディレクトリは\home\ユーザ名に変わったようです）
 Windowsターミナルの設定＞プロファイル＞Ubuntu（Ubuntuを入れていたら）＞全般＞開始ディレクトリを
 ```
 \\wsl$\Ubuntu\home\<ユーザ名>
