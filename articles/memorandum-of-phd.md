@@ -3,7 +3,7 @@ title: "趣味のプログラミングで博士号を取った社会人の覚え
 emoji: "📝"
 type: "idea" # tech: 技術記事 / idea: アイデア
 topics: ["Ph.D", "社会人博士", "研究", "study", "仕事", "work"]
-published: false
+published: true
 ---
 
 私は2022年3月に博士号（工学）を取得しました。いわゆる社会人博士というものです。
