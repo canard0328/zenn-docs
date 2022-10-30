@@ -208,11 +208,14 @@ slimなPythonを入れる場合，恐らくpipが入らないのでapt-get insta
 pipを使ったPythonライブラリのインストールもRUNコマンドで記載します．
 この例ではnumpyをインストールしていますが，実際には「pip install -r requirements.txt」するのが一般的だと思います．
 
+gitを使う場合は、ここでコンテナ側にもgitをインストールしておきます。
+
 ```dockerfile
 FROM python:3.9.10-slim-buster
 
 RUN apt-get update && apt-get install -y \
     python3-pip
+RUN apt-get install -y git
 
 RUN pip install numpy==1.22.2
 ```
