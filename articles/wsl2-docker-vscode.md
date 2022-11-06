@@ -235,6 +235,41 @@ RUN pip install numpy==1.22.2
 
 記載する拡張の名前ですが，VS Codeでその拡張のページを開き，右側のMore Info>Identifierのところに書いてある名前を書けばOKです．
 
+# Xサーバーの設定
+
+このままでは、matplotlibで画像を出力したり、GUIアプリを開発したりすることができません。
+そこで、Windows側にXサーバーをインストールし、Docker側からそれを利用する設定を行う必要があります。
+（以下の設定は、Windows11でWSLg (Windows Subsystem for Linux GUI)が利用可能になると不要になると思います。）
+
+## WindowsにXサーバー（VcXsrv）をインストール
+
+[こちら](https://sourceforge.net/projects/vcxsrv/)からVcXsrvをダウンロードしてインストールします。
+
+インストールが完了したらXLaunchを起動します。
+最初の設定画面左下に、「Display number」があり、-1が設定されていると思いますが、これを0にします。
+その次の次の画面、「Extra settings」で、Additional parameters for VcXsrvに「-ac -nowgl」を指定します。この追加パラメーター「-ac」は、localhostで接続を受ける場合は不要らしいですが、WSL2は違うIPでネットワークにつながっていて別端末扱いのため必要になります。「-nowgl」は、一部のGTKアプリを動かすときにエラーが出てしまうので、対策として指定しています。-nowglがなくても動くアプリもあると思います。
+
+設定を完了すると、Windowsのファイアウォールから警告があります。WSL2は、通常の物理イーサネットとは別のIPアドレス範囲でWindows側とつながっていますので、「パブリックネットワーク」にもチェックを入れてアクセスを許可します。
+
+## DockerのDISPLAY環境変数を設定する
+
+あとは、Dockerファイルの末尾に以下のように追記すればOKといろいろなサイトにあるのですが、私の場合はこれではダメでした。。。
+
+```dockerfile
+ENV DISPLAY host.docker.internal:0.0
+```
+
+私がうまくいったやり方は以下の通りです。
+[こちら](https://astherier.com/blog/2020/08/run-gui-apps-on-wsl2/#)で、DockerではなくWSL2のUbuntu側での設定方法を参考にしました。
+shをbashに置き換えて元に戻すあたりはもっとよいやり方がある気がしますが。。。
+
+```dockerfile
+RUN mv /bin/sh /bin/sh_tmp && ln -s /bin/bash /bin/sh
+RUN echo "export DISPLAY=$(cat /etc/resolv.conf | grep nameserver | awk '{print $2}'):0.0" >> ~/.profile
+RUN source ~/.profile
+RUN rm /bin/sh && mv /bin/sh_tmp /bin/sh
+```
+
 # WSLコマンド
 
 WSLのシャットダウン（再起動）
@@ -285,4 +320,3 @@ $ docker container rm [オプション] コンテナID
 ```bash
 $ docker container prune [オプション]
 ```
-
