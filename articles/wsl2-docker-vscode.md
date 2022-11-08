@@ -260,14 +260,15 @@ ENV DISPLAY host.docker.internal:0.0
 ```
 
 私がうまくいったやり方は以下の通りです。
-[こちら](https://astherier.com/blog/2020/08/run-gui-apps-on-wsl2/#)で、DockerではなくWSL2のUbuntu側での設定方法を参考にしました。
-shをbashに置き換えて元に戻すあたりはもっとよいやり方がある気がしますが。。。
+~~[こちら](https://astherier.com/blog/2020/08/run-gui-apps-on-wsl2/#)で、DockerではなくWSL2のUbuntu側での設定方法を参考にしました。~~
+~~shをbashに置き換えて元に戻すあたりはもっとよいやり方がある気がしますが。。。~~
+[こちら](https://qiita.com/anagura0000/items/bef08bf129f1bd8529ce)のSHELLコマンドを使うほうが幾分スマートな気がします。
+シングルクォーテーションでないと式が評価されてIPアドレスが直書きされてしまうのでご注意ください。
 
 ```dockerfile
-RUN mv /bin/sh /bin/sh_tmp && ln -s /bin/bash /bin/sh
-RUN echo "export DISPLAY=$(cat /etc/resolv.conf | grep nameserver | awk '{print $2}'):0.0" >> ~/.profile
-RUN source ~/.profile
-RUN rm /bin/sh && mv /bin/sh_tmp /bin/sh
+SHELL ["/bin/bash", "-c"]
+RUN echo 'export DISPLAY=$(cat /etc/resolv.conf | grep nameserver | awk '\''{print $2}'\''):0.0' >> ~/.profile
+SHELL ["/bin/sh", "-c"]
 ```
 
 # WSLコマンド
