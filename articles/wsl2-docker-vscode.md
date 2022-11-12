@@ -2,7 +2,7 @@
 title: "WSL2とDockerとVisual Studio Codeでつくる開発環境"
 emoji: "👋"
 type: "tech" # tech: 技術記事 / idea: アイデア
-topics: ["WSL", "WSL2", "Windows Subsystem for Linux", "Docker"]
+topics: ["WSL", "WSL2", "Docker"]
 published: true
 ---
 

@@ -2,7 +2,7 @@
 title: "趣味のプログラミングで博士号を取った社会人の覚え書き"
 emoji: "📝"
 type: "idea" # tech: 技術記事 / idea: アイデア
-topics: ["Ph.D", "社会人博士", "研究", "study", "仕事", "work"]
+topics: ["PhD", "study", "work", "社会人博士"]
 published: true
 ---
 
