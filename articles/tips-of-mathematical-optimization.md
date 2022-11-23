@@ -61,3 +61,45 @@ $$
 
 ここで次のように$u$に値を割り振ると、制約違反とならない$u_{dk}$の値の振り方となり、$x_{dkl}$が実行可能であることがわかる。
 実行可能解では、$u_{dk}$の値は各地点に訪問する順序を表す。
+
+
+# 配送計画で巡回セールスマン問題を複数日同時に解くのを避ける
+
+## 素直なモデリングだが解けない（計算量大）パターン
+
+- パラメータ
+  - $D \in N$：計画立案の対象日数。$D \ge 1$
+  - $K$：地点の集合
+  - $t_{kl}(k, l \in K)$：移動時間。ただし$t_{kl} \ge 0, t_{kk} = 0$
+  - $o \in K$：自社拠点を表す地点
+  - $R$：注文の集合
+  - 注文$r \in R$について
+    - $k_r(\in K)$：注文$r$の届け先地点
+    - $d_r^0, d_r^1 \in [D]$：配送指定期間。$d_r^0 \le d_r^1$
+    - $w_r$：重量。$w_r \ge 0$
+    - $f_r$：配送の外部委託費用。$f_r \ge 0$
+  - $H^0$：所定労働時間。$H^0 > 0$
+  - $W$：トラックの最大積載量。$W > 0$
+  - $c$：1時間当たりの残業代。$c > 0$
+  - $H^1$：最大残業時間。$H^1 \ge 0$
+- 決定係数
+  - $x_{dkl} \in \{0, 1\} \quad (d \in [D], k, l \in K)$：自社トラックの移動
+  - $y_{dr} \in \{0, 1\} \quad (d \in [D], r \in R)$：自社トラックによる配送
+  - $u_{dk} \in [0, |K|-1] \quad (\in \mathbb{R})$：移動の順序を表す補助変数
+  - $h_d \in \mathbb{R}_+ \quad (d \in [D])$：残業時間を表す補助変数
+- 制約条件
+  - $\sum_{k \in K}x_{dkl} \le 1 \quad (d \in [D], l \in K)$
+  - $\sum_{k \in K}x_{dkl} = \sum_{k \in K}x_{dlk} \quad (d \in [D], l \in K)$
+  - $u_{do} = 0 \quad (d \in [D])$
+  - $u_{dk} \ge 1 \quad (d \in [D], k \in K \backslash \{o\})$
+  - $u_{dk}+1 \le u_{dl}+(|K|-1)(1-x_{dkl}) \quad (k, l \in K\backslash \{o\})$
+  - $\sum_{d}y_{dr} \le 1 \quad (r \in R)$
+  - $y_{dr} \le \sum_{k} x_{dkk_{r}} (d \in [D], r \in R)$
+  - $\sum_{r} w_r y_{dr} \le W \quad (d \in [D])$
+  - $\sum_{k, l \in K}{t_{kl}x_{dkl}} - H^0 \le h_d \quad (d \in [D])$
+  - $h_d \le H^1 \quad (d \in [D])$
+  - $\sum_{d \in [D]\backslash [d_r^0, d_r^1]} y_{dr} = 0 \quad (r \in R)$
+- 目的関数（最小化）
+  - $c\sum_{d\in [D]}h_d + \sum_{r\in R}{f_r (1-\sum_{d\in [D]}y_{dr})}$
+
+## 日ごとにスケジュールを事前に列挙しておくことで可能となるモデリング
