@@ -103,3 +103,12 @@ $$
   - $c\sum_{d\in [D]}h_d + \sum_{r\in R}{f_r (1-\sum_{d\in [D]}y_{dr})}$
 
 ## 日ごとにスケジュールを事前に列挙しておくことで可能となるモデリング
+
+
+# 絶対値の値を最小化したい場合には、非負の補助変数を導入して上下で挟む
+
+[こちらのブログ](https://yamaimo.hatenablog.jp/entry/2022/12/11/220000)より。
+
+$$
+\min_a |a| \Leftrightarrow \min m, \quad \rm{sub. to} -m_i \le a \le m, \quad m \ge 0
+$$
